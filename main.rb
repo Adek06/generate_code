@@ -75,20 +75,20 @@ print "請輸入函數類型（get、del、set、get）: "
 
 function_name = ((gets.chomp).split)[0]
 
-print "\n請輸入必要參數（用空隔區分）: "
+# print "\n請輸入必要參數（用空隔區分）: "
 
-must_vars = Array.new()
+# must_vars = Array.new()
 
-must_vars = gets.split
+# must_vars = gets.split
 
-print "\n請輸入可選參數（用空隔區分）: "
+# print "\n請輸入可選參數（用空隔區分）: "
 
-maybe_vars = Array.new()
+# maybe_vars = Array.new()
 
-maybe_vars = gets.split
+# maybe_vars = gets.split
 
-gener_filter_file_by function_name, must_vars, maybe_vars
+# gener_filter_file_by function_name, must_vars, maybe_vars
 
-gener_Filter_file_by must_vars, maybe_vars
+# gener_Filter_file_by must_vars, maybe_vars
 
-gener_api_json_by must_vars, maybe_vars
+# gener_api_json_by must_vars, maybe_vars
