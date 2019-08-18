@@ -1,5 +1,9 @@
 # encoding:utf-8
 
+BIG_PARA_LEFT = "\n{\n"
+
+BIG_PARA_RIGHT = "\n}\n"
+
 def gener_filter_file_by(function_name, must_vars, maybe_vars)
 	
 	File.open("./filter.txt","w") do |f|
@@ -10,19 +14,23 @@ def gener_filter_file_by(function_name, must_vars, maybe_vars)
 		end
 		x[-1] = ""
 		
-		f.syswrite("static public function #{function_name}PostValid()\n{\n")
+		func_name = "static public function #{function_name}PostValid()"
 
-		f.syswrite("if (!isset(#{x})) {\n    Common::setMsgAndCode('参数格式错误', ErrorCode::ErrorParam);\n}\n\n")
+		wait_write = func_name + BIG_PARA_LEFT + "if (!isset(#{x})) {\n    Common::setMsgAndCode('参数格式错误', ErrorCode::ErrorParam);\n}\n\n"
 		
 		for i in must_vars do
-			f.syswrite("self::$param['#{i}'] = #{i}Valid();\n\n")
+			wait_write += "self::$param['#{i}'] = #{i}Valid();\n\n"
 		end
 
 		for i in maybe_vars do
-			f.syswrite("if (isset(self::$ajax['#{i}'])) {\n    self::$param['#{i}'] = self::#{i}Valid();\n}\n")
+			wait_write += "if (isset(self::$ajax['#{i}'])) {\n    self::$param['#{i}'] = self::#{i}Valid();\n}\n"
 		end
 
-		f.syswrite("\n\nreturn ;\n}")
+		wait_write += "\n\nreturn ;"
+
+		wait_write += BIG_PARA_RIGHT
+
+		f.syswrite(wait_write)
 
 	end
 end
