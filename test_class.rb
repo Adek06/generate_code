@@ -1,5 +1,6 @@
 # encoding:utf-8
 class Var_Class
+	attr_reader :v_name, :v_type, :is_id
 	def initialize(v_name, v_type)
 		@v_name = v_name
 		@v_type = v_type
@@ -23,18 +24,6 @@ class Var_Class
 		end
 	end
 
-	def is_id
-		@is_id
-	end
-
-	def v_name
-		@v_name
-	end
-
-	def v_type
-		@v_type
-	end
-
 	def func_code
 		return ""
 	end
@@ -44,7 +33,7 @@ class Var_int < Var_Class
 	def func_code
 		code_str =  "protected static function #{@v_name}Valid()\n{\n"
 		code_str += "if () {\n    Common::setMsgAndCode('#{@v_name} 参数值非法', ErrorCode::InvalidParam);\n}\n"
-		code_str += "\nreturn ;\n"
+		code_str += "\nreturn #{@v_name};\n"
 		code_str += "}\n\n"
 		return code_str
 	end
@@ -55,7 +44,7 @@ class Var_str < Var_Class
 		code_str =  "protected static function #{@v_name}Valid()\n{\n"
 		code_str += "$#{@v_name} = self::stringValid(self::$ajax['#{@v_name}'], , );\n"
 		code_str += "if (!#{@v_name}) {\n    Common::setMsgAndCode('#{@v_name} 参数值非法', ErrorCode::InvalidParam);\n}\n"
-		code_str += "\nreturn ;\n"
+		code_str += "\nreturn #{@v_name};\n"
 		code_str += "}\n\n"
 		return code_str
 	end
