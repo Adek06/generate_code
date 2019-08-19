@@ -5,6 +5,7 @@ BIG_PARA_LEFT = "{\n"
 BIG_PARA_RIGHT = "}\n"
 
 require_relative "var_class.rb"
+require_relative "func_class.rb"
 
 def gener_filter_file_by(function_name, must_vars, maybe_vars)
 
@@ -21,42 +22,9 @@ def gener_filter_file_by(function_name, must_vars, maybe_vars)
 		code_str = func_name + BIG_PARA_LEFT + "if (!isset(#{x})) {\n    Common::setMsgAndCode('参数格式错误', ErrorCode::ErrorParam);\n}\n\n"
 
 		if function_name == 'set'
-			id_var = must_vars[0]
-			temp_name = id_var.v_name.sub(/[()]id/, '')
-			code_str += "#{temp_name} = #{id_var.v_name}Valid(self::$ajax[#{id_var.v_name}], true);\n\n"
-			
-			for i in maybe_vars do
-				code_str += "if (isset(self::$ajax['#{i.v_name}'])) {\n"
-				code_str += "    $#{i.v_name} = self::#{i.v_name}Valid();\n"
-				code_str += "    if ($#{temp_name}['#{i.v_name}'] == $#{i.v_name}) {\n"
-				code_str += "        Common::setMsgAndCode('#{i.v_name} 参数值错误', ErrorCode::InvalidParam);\n"
-				code_str += "    }\n\n"
-				code_str += "    self::$param['#{i.v_name}'] = $#{i.v_name};\n"
-				code_str += "}\n\n"
-			end
-
-			code_str += "if (count(self::$param) === 0) {\n"
-			code_str += "    Common::setMsgAndCode('没有任何修改', ErrorCode::BadParam);\n"
-			code_str += "}\n"
-
-			code_str += "self::$param['#{id_var.v_name}'] = $#{temp_name}['#{id_var.v_name}'];"
-
-			code_str += "\nreturn ;\n"
-
-			code_str += BIG_PARA_RIGHT
-
+			code_str += Func_Class.set_function(function_name, must_vars, maybe_vars)
 		elsif function_name == 'get'
-			for i in must_vars do
-				code_str += "self::$param['#{i.v_name}'] = #{i.v_name}Valid();\n\n"
-			end
-
-			for i in maybe_vars do
-				code_str += "if (isset(self::$ajax['#{i.v_name}'])) {\n    self::$param['#{i.v_name}'] = self::#{i.v_name}Valid();\n}\n"
-			end
-
-			code_str += "\nreturn ;"
-
-			code_str += BIG_PARA_RIGHT
+			code_str += Func_Class.get_function(function_name, must_vars, maybe_vars)
 		end
 
 		f.syswrite(code_str)
@@ -68,12 +36,12 @@ def gener_Filter_file_by(must_vars, maybe_vars)
 	File.open("./filter_parent.txt", "w") do |f|
 
 		temp_array = must_vars + maybe_vars
-
+		code_str = ""
 		for i in temp_array do
 			var_c = Var_Factory.get_var i
-			f.syswrite(var_c.func_code)
+			code_str += var_c.func_code
 		end 
-
+		f.syswrite(code_str)
 	end
 end
 
@@ -101,7 +69,7 @@ end
 print "請輸入函數類型（get、del、set、list）: "
 
 # function_name = ((gets.chomp).split)[0]
-function_name = 'set'
+function_name = 'get'
 
 print "請輸入必要參數，名字在前，类型在后，中间空隔隔开（变量之间用,區分）： "
 

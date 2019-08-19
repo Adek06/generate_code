@@ -42,9 +42,10 @@ end
 class Var_str < Var_Class
 	def func_code
 		code_str =  "protected static function #{@v_name}Valid()\n{\n"
-		code_str += "$#{@v_name} = self::stringValid(self::$ajax['#{@v_name}'], , );\n"
-		code_str += "if (!#{@v_name}) {\n    Common::setMsgAndCode('#{@v_name} 参数值非法', ErrorCode::InvalidParam);\n}\n"
-		code_str += "\nreturn #{@v_name};\n"
+		code_str += "    $#{@v_name} = self::stringValid(self::$ajax['#{@v_name}'], , );\n"
+		code_str += "    if (!#{@v_name}) {\n    Common::setMsgAndCode('#{@v_name} 参数值非法', ErrorCode::InvalidParam);\n"
+		code_str += "}\n\n"
+		code_str += "    return #{@v_name};\n"
 		code_str += "}\n\n"
 		return code_str
 	end
@@ -52,19 +53,20 @@ end
 
 class Var_id < Var_Class
 	def func_code
-		code_str =  "protected static function #{@v_name}Valid($#{@v_name}, $bool=false)\n{\n"
-		code_str += "$filter = [];\n"
-		code_str += "$filter['#{@v_name}'] = $#{@v_name};\n"
-		temp_name = @v_name.sub(/[()]id/, '')
-		code_str += "$#{temp_name}M = xxModel();\n"
-		code_str += "$#{temp_name} = $$#{temp_name}M -> get($filter);\n"
-		code_str += "if (!$#{temp_name}) {\n"
-		code_str += "Common::setMsgAndCode('#{@v_name} 参数值非法', ErrorCode::InvalidParam);\n"
-		code_str += "}\n"
-		code_str += "if ($bool) {\n"
-		code_str += "return $#{temp_name};\n"
-		code_str += "}\n"
-		code_str += "return $#{@v_name};\n"
+		code_str =  "protected static function #{@v_name}Valid($#{@v_name}, $bool=false)\n"
+		code_str += "{\n"
+		code_str += "    $filter = [];\n"
+		code_str += "    $filter['#{@v_name}'] = $#{@v_name};\n"
+		temp_name = @v_name.sub(/id/, '')
+		code_str += "    $#{temp_name}M = xxModel();\n"
+		code_str += "    $#{temp_name} = $$#{temp_name}M -> get($filter);\n"
+		code_str += "    if (!$#{temp_name}) {\n"
+		code_str += "        Common::setMsgAndCode('#{@v_name} 参数值非法', ErrorCode::InvalidParam);\n"
+		code_str += "    }\n"
+		code_str += "    if ($bool) {\n"
+		code_str += "        return $#{temp_name};\n"
+		code_str += "    }\n"
+		code_str += "    return $#{@v_name};\n"
 		code_str += "}\n\n"
 		return code_str
 	end
