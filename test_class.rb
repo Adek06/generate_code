@@ -28,14 +28,38 @@ class Var_Class
 		@v_name = v
 	end
 
-	def v_type(*v)
-		if v == []
-			return @v_type
-		end 
-		@v_type = v
+	# def v_type(*v)
+	# 	if v == []
+	# 		return @v_type
+	# 	end 
+	# 	@v_type = v
+	# end
+
+	def v_type
+		@v_type
+	end
+
+	def func_code
+		return ""
 	end
 end
 
+class Var_int < Var_Class
+	def func_code
+		code_str = "protected static function #{@v_name}Valid()\n{\n"
+		code_str += "if () {\n    Common::setMsgAndCode('#{@v_name} 参数值非法', ErrorCode::InvalidParam);\n}\n"
+		code_str += "\nreturn ;\n}\n"
+	end
+end
+
+class Var_Factory
+	def Var_Factory.get_var (var_c)
+		print var_c.v_type
+		if var_c.v_type == "int"
+			return Var_int.new var_c.v_name, var_c.v_type
+		end
+	end 
+end
 
 # v_name = "testi"
 
@@ -45,8 +69,8 @@ end
 # 	puts "erro"
 # end
 
-v = Var_Class.new('testid', 'int')
-puts v.v_name('another name')
+# v = Var_Class.new('testid', 'int')
+# puts v.v_name('another name')
 # puts v.is_id
 # v.v_name = "another name"
 # puts v.get_name
