@@ -4,6 +4,7 @@ class Var_Class
 		@v_name = v_name
 		@v_type = v_type
 		@is_id = does_name_have_id ? true : false
+		@is_list = does_name_have_list ? true : false
 	end
 
 	def does_name_have_id ()
@@ -14,26 +15,21 @@ class Var_Class
 		end
 	end
 
-	def is_id(*v)
-		if v == []
-			@is_id
+	def does_name_have_list ()
+		if (@v_name =~ /(.*)list/i)
+			return true
+		else
+			return false
 		end
-		@is_id = v
 	end
 
-	def v_name(*v)
-		if v == []
-			return @v_name
-		end 
-		@v_name = v
+	def is_id
+		@is_id
 	end
 
-	# def v_type(*v)
-	# 	if v == []
-	# 		return @v_type
-	# 	end 
-	# 	@v_type = v
-	# end
+	def v_name
+		@v_name
+	end
 
 	def v_type
 		@v_type
@@ -46,18 +42,58 @@ end
 
 class Var_int < Var_Class
 	def func_code
-		code_str = "protected static function #{@v_name}Valid()\n{\n"
+		code_str =  "protected static function #{@v_name}Valid()\n{\n"
 		code_str += "if () {\n    Common::setMsgAndCode('#{@v_name} 参数值非法', ErrorCode::InvalidParam);\n}\n"
-		code_str += "\nreturn ;\n}\n"
+		code_str += "\nreturn ;\n"
+		code_str += "}\n\n"
+		return code_str
+	end
+end
+
+class Var_str < Var_Class
+	def func_code
+		code_str =  "protected static function #{@v_name}Valid()\n{\n"
+		code_str += "$#{@v_name} = self::stringValid(self::$ajax['#{@v_name}'], , );\n"
+		code_str += "if (!#{@v_name}) {\n    Common::setMsgAndCode('#{@v_name} 参数值非法', ErrorCode::InvalidParam);\n}\n"
+		code_str += "\nreturn ;\n"
+		code_str += "}\n\n"
+		return code_str
+	end
+end
+
+class Var_id < Var_Class
+	def func_code
+		code_str =  "protected static function #{@v_name}Valid($#{@v_name}, $bool=false)\n{\n"
+		code_str += "$filter = [];\n"
+		code_str += "$filter['#{@v_name}'] = $#{@v_name};\n"
+		temp_name = @v_name.sub(/[()]id/, '')
+		code_str += "$#{temp_name}M = xxModel();\n"
+		code_str += "$#{temp_name} = $$#{temp_name}M -> get($filter);\n"
+		code_str += "if (!$#{temp_name}) {\n"
+		code_str += "Common::setMsgAndCode('#{@v_name} 参数值非法', ErrorCode::InvalidParam);\n"
+		code_str += "}\n"
+		code_str += "if ($bool) {\n"
+		code_str += "return $#{temp_name};\n"
+		code_str += "}\n"
+		code_str += "return $#{@v_name};\n"
+		code_str += "}\n\n"
+		return code_str
 	end
 end
 
 class Var_Factory
 	def Var_Factory.get_var (var_c)
-		print var_c.v_type
+
+		if var_c.is_id == true
+			return Var_id.new var_c.v_name, var_c.v_type
+		end
+
 		if var_c.v_type == "int"
 			return Var_int.new var_c.v_name, var_c.v_type
+		elsif var_c.v_type == "str"
+			return Var_str.new var_c.v_name, var_c.v_type
 		end
+
 	end 
 end
 
@@ -73,4 +109,10 @@ end
 # puts v.v_name('another name')
 # puts v.is_id
 # v.v_name = "another name"
-# puts v.get_name
+# # puts v.get_name
+
+# a = "tetid"
+# b = a.sub(/id/i,"")
+# puts b
+
+# puts a

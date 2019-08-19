@@ -28,7 +28,7 @@ def gener_filter_file_by(function_name, must_vars, maybe_vars)
 			wait_write += "if (isset(self::$ajax['#{i.v_name}'])) {\n    self::$param['#{i.v_name}'] = self::#{i.v_name}Valid();\n}\n"
 		end
 
-		wait_write += "\n\nreturn ;"
+		wait_write += "\nreturn ;"
 
 		wait_write += BIG_PARA_RIGHT
 
@@ -74,15 +74,13 @@ end
 
 print "請輸入函數類型（get、del、set、get）: "
 
-# function_name = ((gets.chomp).split)[0]
-
-function_name = 'get'
+function_name = ((gets.chomp).split)[0]
+# function_name = 'get'
 
 print "請輸入必要參數，名字在前，类型在后，中间空隔隔开（变量之间用,區分）： "
 
-# must_vars = gets.chomp.split(',')
-
-must_vars = ['bi int']
+must_vars = gets.chomp.split(',')
+# must_vars = ['bi int', 'biid int']
 
 must_array = []
 for i in must_vars do
@@ -98,9 +96,8 @@ print(must_objects)
 
 print "請輸入可选參數，名字在前，类型在后，中间空隔隔开（变量之间用,區分）： "
 
-# maybe_vars = gets.chomp.split(',')
-
-maybe_vars = ['li int']
+maybe_vars = gets.chomp.split(',')
+# maybe_vars = ['li int']
 
 maybe_array = []
 for i in maybe_vars do
