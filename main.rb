@@ -92,8 +92,6 @@ for i in must_array do
 	must_objects.push(Var_Class.new(i[0],i[1]))
 end
 
-print(must_objects)
-
 print "請輸入可选參數，名字在前，类型在后，中间空隔隔开（变量之间用,區分）： "
 
 maybe_vars = gets.chomp.split(',')
@@ -108,8 +106,6 @@ maybe_objects = []
 for i in maybe_array do
 	maybe_objects.push(Var_Class.new(i[0],i[1]))
 end
-
-print(maybe_objects)
 
 gener_filter_file_by function_name, must_objects, maybe_objects
 
