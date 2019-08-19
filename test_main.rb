@@ -25,9 +25,11 @@ def gener_filter_file_by(function_name, must_vars, maybe_vars)
 		if function_name == 'set'
 			code_str += Func_Class.set_function(function_name, must_vars, maybe_vars)
 		elsif function_name == 'add'
-			code_str += Func_Class.add_function(function_name, must_vars, maybe_vars)
+            code_str += Func_Class.add_function(function_name, must_vars, maybe_vars)
+        elsif function_name == 'del'
+            code_str += Func_Class.del_function(function_name, must_vars, maybe_vars)
 		end
-		code_str += "}\n\n"
+
 		f.syswrite(code_str)
 	end
 end
@@ -69,13 +71,13 @@ end
 
 print "請輸入函數類型（add、del、set、get）: "
 
-function_name = ((gets.chomp).split)[0]
-# function_name = 'get'
+# function_name = ((gets.chomp).split)[0]
+function_name = 'del'
 
 print "請輸入必要參數，名字在前，类型在后，中间空隔隔开（变量之间用,區分）： "
 
-must_vars = gets.chomp.split(',')
-# must_vars = ['biid int']
+# must_vars = gets.chomp.split(',')
+must_vars = ['biid int']
 
 must_array = []
 for i in must_vars do
@@ -89,8 +91,8 @@ end
 
 print "請輸入可选參數，名字在前，类型在后，中间空隔隔开（变量之间用,區分）： "
 
-maybe_vars = gets.chomp.split(',')
-# maybe_vars = ['li int', 'st str']
+# maybe_vars = gets.chomp.split(',')
+maybe_vars = ['li int', 'st str']
 
 maybe_array = []
 for i in maybe_vars do
