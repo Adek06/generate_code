@@ -22,13 +22,13 @@ class Func_Class
 
         code_str += "self::$param['#{id_var.v_name}'] = $#{temp_name}['#{id_var.v_name}'];"
 
-        code_str += "\nreturn ;\n"
+        code_str += "\nreturn ;\n\n"
 
-        code_str += BIG_PARA_RIGHT
+        code_str += "}\n"
         return code_str
     end
 
-    def Func_Class.get_function(func_name, must_vars, maybe_vars)
+    def Func_Class.add_function(func_name, must_vars, maybe_vars)
         code_str = ""
         for i in must_vars do
             if i.is_id

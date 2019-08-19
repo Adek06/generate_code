@@ -32,8 +32,10 @@ end
 class Var_int < Var_Class
 	def func_code
 		code_str =  "protected static function #{@v_name}Valid()\n{\n"
-		code_str += "if () {\n    Common::setMsgAndCode('#{@v_name} 参数值非法', ErrorCode::InvalidParam);\n}\n"
-		code_str += "\nreturn #{@v_name};\n"
+		code_str += "    if () {\n"
+		code_str += "        Common::setMsgAndCode('#{@v_name} 参数值非法', ErrorCode::InvalidParam);\n"
+		code_str += "    }\n"
+		code_str += "    \nreturn #{@v_name};\n"
 		code_str += "}\n\n"
 		return code_str
 	end
@@ -43,8 +45,9 @@ class Var_str < Var_Class
 	def func_code
 		code_str =  "protected static function #{@v_name}Valid()\n{\n"
 		code_str += "    $#{@v_name} = self::stringValid(self::$ajax['#{@v_name}'], , );\n"
-		code_str += "    if (!#{@v_name}) {\n    Common::setMsgAndCode('#{@v_name} 参数值非法', ErrorCode::InvalidParam);\n"
-		code_str += "}\n\n"
+		code_str += "    if (!#{@v_name}) {\n"
+		code_str += "        Common::setMsgAndCode('#{@v_name} 参数值非法', ErrorCode::InvalidParam);\n"
+		code_str += "    }\n\n"
 		code_str += "    return #{@v_name};\n"
 		code_str += "}\n\n"
 		return code_str

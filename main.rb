@@ -1,9 +1,5 @@
 # encoding:utf-8
 
-BIG_PARA_LEFT = "{\n"
-
-BIG_PARA_RIGHT = "}\n"
-
 require_relative "var_class.rb"
 require_relative "func_class.rb"
 
@@ -15,16 +11,21 @@ def gener_filter_file_by(function_name, must_vars, maybe_vars)
 
 		x = ""
 		for i in must_vars do
-			x += "self::$ajax['#{i.v_name}'],"
+			x += "self::$ajax['#{i.v_name}'], "
 		end
 		x[-1] = ""
 
-		code_str = func_name + BIG_PARA_LEFT + "if (!isset(#{x})) {\n    Common::setMsgAndCode('参数格式错误', ErrorCode::ErrorParam);\n}\n\n"
+		code_str = ""
+		code_str += func_name 
+		code_str += "\n{\n" 
+		code_str += "if (!isset(#{x})) {\n"
+		code_str += "    Common::setMsgAndCode('参数格式错误', ErrorCode::ErrorParam);\n"
+		code_str += "}\n\n"
 
 		if function_name == 'set'
 			code_str += Func_Class.set_function(function_name, must_vars, maybe_vars)
-		elsif function_name == 'get'
-			code_str += Func_Class.get_function(function_name, must_vars, maybe_vars)
+		elsif function_name == 'add'
+			code_str += Func_Class.add_function(function_name, must_vars, maybe_vars)
 		end
 
 		f.syswrite(code_str)
@@ -66,15 +67,15 @@ def gener_api_json_by(must_vars, maybe_vars)
 
 end
 
-print "請輸入函數類型（get、del、set、list）: "
+print "請輸入函數類型（add、del、set、get）: "
 
-# function_name = ((gets.chomp).split)[0]
-function_name = 'get'
+function_name = ((gets.chomp).split)[0]
+# function_name = 'get'
 
 print "請輸入必要參數，名字在前，类型在后，中间空隔隔开（变量之间用,區分）： "
 
-# must_vars = gets.chomp.split(',')
-must_vars = ['biid int']
+must_vars = gets.chomp.split(',')
+# must_vars = ['biid int']
 
 must_array = []
 for i in must_vars do
@@ -88,8 +89,8 @@ end
 
 print "請輸入可选參數，名字在前，类型在后，中间空隔隔开（变量之间用,區分）： "
 
-# maybe_vars = gets.chomp.split(',')
-maybe_vars = ['li int', 'st str']
+maybe_vars = gets.chomp.split(',')
+# maybe_vars = ['li int', 'st str']
 
 maybe_array = []
 for i in maybe_vars do
