@@ -26,6 +26,10 @@ def gener_filter_file_by(function_name, must_vars, maybe_vars)
 			code_str += Func_Class.set_function(function_name, must_vars, maybe_vars)
 		elsif function_name == 'add'
 			code_str += Func_Class.add_function(function_name, must_vars, maybe_vars)
+		elsif function_name == 'del'
+			code_str += Func_Class.del_function(function_name, must_vars, maybe_vars)
+		elsif function_name == 'get'
+			code_str += Func_Class.get_function(function_name, must_vars, maybe_vars)
 		end
 		code_str += "}\n\n"
 		f.syswrite(code_str)

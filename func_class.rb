@@ -73,4 +73,27 @@ class Func_Class
         code_str += "}\n"
         return code_str
     end
+
+    def Func_Class.get_function(func_name, must_vars, maybe_vars)
+        code_str = ""
+        for i in must_vars do
+            if i.is_id
+                code_str += "self::$param['#{i.v_name}'] = #{i.v_name}Valid(self::$ajax['#{i.v_name}'], false);\n\n"
+            else 
+                code_str += "self::$param['#{i.v_name}'] = #{i.v_name}Valid();\n\n"
+            end
+        end
+
+        for i in maybe_vars do
+            if i.is_id
+                code_str += "if (isset(self::$ajax['#{i.v_name}'])) {\n    self::$param['#{i.v_name}'] = self::#{i.v_name}Valid(self::$ajax['#{i.v_name}'], false);\n}\n"
+            else 
+                code_str += "if (isset(self::$ajax['#{i.v_name}'])) {\n    self::$param['#{i.v_name}'] = self::#{i.v_name}Valid();\n}\n"
+            end
+        end
+        code_str += "\nreturn ;\n\n"
+
+        code_str += "}\n"
+        return code_str
+    end
 end
