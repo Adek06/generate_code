@@ -4,7 +4,7 @@ class Func_Class
         code_str = ""
         id_var = must_vars[0]
         temp_name = id_var.v_name.sub(/[()]id/, '')
-        code_str += "#{temp_name} = #{id_var.v_name}Valid(self::$ajax[#{id_var.v_name}], true);\n\n"
+        code_str += "#{temp_name} = self::#{id_var.v_name}Valid(self::$ajax[#{id_var.v_name}], true);\n\n"
         
         for i in maybe_vars do
             code_str += "if (isset(self::$ajax['#{i.v_name}'])) {\n"
