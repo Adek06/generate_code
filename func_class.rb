@@ -32,17 +32,21 @@ class Func_Class
         code_str = ""
         for i in must_vars do
             if i.is_id
-                code_str += "self::$param['#{i.v_name}'] = #{i.v_name}Valid(self::$ajax['#{i.v_name}'], false);\n\n"
+                code_str += "self::$param['#{i.v_name}'] = self::#{i.v_name}Valid(self::$ajax['#{i.v_name}'], false);\n\n"
             else 
-                code_str += "self::$param['#{i.v_name}'] = #{i.v_name}Valid();\n\n"
+                code_str += "self::$param['#{i.v_name}'] = self::#{i.v_name}Valid();\n\n"
             end
         end
 
         for i in maybe_vars do
             if i.is_id
-                code_str += "if (isset(self::$ajax['#{i.v_name}'])) {\n    self::$param['#{i.v_name}'] = self::#{i.v_name}Valid(self::$ajax['#{i.v_name}'], false);\n}\n"
+                code_str += "if (isset(self::$ajax['#{i.v_name}'])) {\n"
+                code_str += "    self::$param['#{i.v_name}'] = self::#{i.v_name}Valid(self::$ajax['#{i.v_name}'], false);\n"
+                code_str += "}\n"
             else 
-                code_str += "if (isset(self::$ajax['#{i.v_name}'])) {\n    self::$param['#{i.v_name}'] = self::#{i.v_name}Valid();\n}\n"
+                code_str += "if (isset(self::$ajax['#{i.v_name}'])) {\n"
+                code_str += "    self::$param['#{i.v_name}'] = self::#{i.v_name}Valid();\n"
+                code_str += "}\n"
             end
         end
 
@@ -55,17 +59,21 @@ class Func_Class
         code_str = ""
         for i in must_vars do
             if i.is_id
-                code_str += "self::$param['#{i.v_name}'] = #{i.v_name}Valid(self::$ajax['#{i.v_name}'], false);\n\n"
+                code_str += "self::$param['#{i.v_name}'] = self::#{i.v_name}Valid(self::$ajax['#{i.v_name}'], false);\n\n"
             else 
-                code_str += "self::$param['#{i.v_name}'] = #{i.v_name}Valid();\n\n"
+                code_str += "self::$param['#{i.v_name}'] = self::#{i.v_name}Valid();\n\n"
             end
         end
 
         for i in maybe_vars do
             if i.is_id
-                code_str += "if (isset(self::$ajax['#{i.v_name}'])) {\n    self::$param['#{i.v_name}'] = self::#{i.v_name}Valid(self::$ajax['#{i.v_name}'], false);\n}\n"
+                code_str += "if (isset(self::$ajax['#{i.v_name}'])) {\n"
+                code_str += "    self::$param['#{i.v_name}'] = self::#{i.v_name}Valid(self::$ajax['#{i.v_name}'], false);\n"
+                code_str += "}\n"
             else 
-                code_str += "if (isset(self::$ajax['#{i.v_name}'])) {\n    self::$param['#{i.v_name}'] = self::#{i.v_name}Valid();\n}\n"
+                code_str += "if (isset(self::$ajax['#{i.v_name}'])) {\n" 
+                code_str += "    self::$param['#{i.v_name}'] = self::#{i.v_name}Valid();\n"
+                code_str += "}\n"
             end
         end
         code_str += "\nreturn ;\n\n"
@@ -78,17 +86,21 @@ class Func_Class
         code_str = ""
         for i in must_vars do
             if i.is_id
-                code_str += "self::$param['#{i.v_name}'] = #{i.v_name}Valid(self::$ajax['#{i.v_name}'], false);\n\n"
+                code_str += "self::$param['#{i.v_name}'] = self::#{i.v_name}Valid(self::$ajax['#{i.v_name}'], false);\n\n"
             else 
-                code_str += "self::$param['#{i.v_name}'] = #{i.v_name}Valid();\n\n"
+                code_str += "self::$param['#{i.v_name}'] = self::#{i.v_name}Valid();\n\n"
             end
         end
 
         for i in maybe_vars do
             if i.is_id
-                code_str += "if (isset(self::$ajax['#{i.v_name}'])) {\n    self::$param['#{i.v_name}'] = self::#{i.v_name}Valid(self::$ajax['#{i.v_name}'], false);\n}\n"
+                code_str += "if (isset(self::$ajax['#{i.v_name}'])) {\n  "
+                code_str += "  self::$param['#{i.v_name}'] = self::#{i.v_name}Valid(self::$ajax['#{i.v_name}'], false);\n"
+                code_str += "}\n"
             else 
-                code_str += "if (isset(self::$ajax['#{i.v_name}'])) {\n    self::$param['#{i.v_name}'] = self::#{i.v_name}Valid();\n}\n"
+                code_str += "if (isset(self::$ajax['#{i.v_name}'])) {\n"
+                code_str += "    self::$param['#{i.v_name}'] = self::#{i.v_name}Valid();\n"
+                code_str += "}\n"
             end
         end
         code_str += "\nreturn ;\n\n"
