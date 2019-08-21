@@ -31,7 +31,6 @@ def gener_filter_file_by(function_name, must_vars, maybe_vars)
 		elsif function_name == 'get'
 			code_str += Func_Class.get_function(function_name, must_vars, maybe_vars)
 		end
-		code_str += "}\n\n"
 		f.syswrite(code_str)
 	end
 end
