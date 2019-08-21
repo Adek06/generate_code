@@ -35,7 +35,7 @@ class Var_int < Var_Class
 		code_str += "    if () {\n"
 		code_str += "        Common::setMsgAndCode('#{@v_name} 参数值非法', ErrorCode::InvalidParam);\n"
 		code_str += "    }\n"
-		code_str += "    \nreturn #{@v_name};\n"
+		code_str += "    \nreturn $#{@v_name};\n"
 		code_str += "}\n\n"
 		return code_str
 	end
@@ -48,7 +48,7 @@ class Var_str < Var_Class
 		code_str += "    if (!#{@v_name}) {\n"
 		code_str += "        Common::setMsgAndCode('#{@v_name} 参数值非法', ErrorCode::InvalidParam);\n"
 		code_str += "    }\n\n"
-		code_str += "    return #{@v_name};\n"
+		code_str += "    return $#{@v_name};\n"
 		code_str += "}\n\n"
 		return code_str
 	end
