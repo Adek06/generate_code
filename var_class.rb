@@ -61,8 +61,8 @@ class Var_id < Var_Class
 		code_str += "    $filter = [];\n"
 		code_str += "    $filter['#{@v_name}'] = $#{@v_name};\n"
 		temp_name = @v_name.sub(/id/, '')
-		code_str += "    $#{temp_name}M = xxModel();\n"
-		code_str += "    $#{temp_name} = $$#{temp_name}M -> get($filter);\n"
+		code_str += "    $#{temp_name}M = new xxModel();\n"
+		code_str += "    $#{temp_name} = $#{temp_name}M -> get($filter);\n"
 		code_str += "    if (!$#{temp_name}) {\n"
 		code_str += "        Common::setMsgAndCode('#{@v_name} 参数值非法', ErrorCode::InvalidParam);\n"
 		code_str += "    }\n"

@@ -8,6 +8,7 @@ class Func_Class
         
         for i in maybe_vars do
             code_str += "if (isset(self::$ajax['#{i.v_name}'])) {\n"
+            //todo: 这里可能要改成 不同的变量用不同的验证方式
             code_str += "    $#{i.v_name} = self::#{i.v_name}Valid();\n"
             code_str += "    if ($#{temp_name}['#{i.v_name}'] == $#{i.v_name}) {\n"
             code_str += "        Common::setMsgAndCode('#{i.v_name} 参数值错误', ErrorCode::InvalidParam);\n"
