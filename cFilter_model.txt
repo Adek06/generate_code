@@ -1,0 +1,8 @@
+<?php
+
+/**
+ * 
+ */
+class Filter_#{name} extends Filter
+{
+}

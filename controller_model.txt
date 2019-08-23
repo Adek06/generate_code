@@ -1,0 +1,15 @@
+<?php
+
+/**
+ * 
+ */
+class #{file_name}Controller extends 
+{
+    public function init()
+    {
+        parent::init();
+
+        Yaf_Loader::import(realpath(dirname(__FILE__)) . '/' . $this->getRequest()->getControllerName() . 'filter.php');
+    }
+
+}
