@@ -10,10 +10,12 @@ def gener_filter_file_by(function_name, must_vars, maybe_vars)
 	File.open("./filter.txt","w") do |f|
 
 		x = ""
-		for i in must_vars do
-			x += "self::$ajax['#{i.v_name}'], "
+		if must_vars != []
+			for i in must_vars do
+				x += "self::$ajax['#{i.v_name}'], "
+			end
+			x[-1] = ""
 		end
-		x[-1] = ""
 
 		code_str = ""
 		code_str += func_name 
