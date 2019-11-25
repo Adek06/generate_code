@@ -3,8 +3,8 @@ class Func_Class
     def Func_Class.set_function(func_name, must_vars, maybe_vars)
         code_str = ""
         id_var = must_vars[0]
-        temp_name = id_var.v_name.sub(/[()]id/, '')
-        code_str += "#{temp_name} = self::#{id_var.v_name}Valid(self::$ajax[#{id_var.v_name}], true);\n\n"
+        temp_name = id_var.v_name.sub(/id$/, '')
+        code_str += "$#{temp_name} = self::#{id_var.v_name}Valid(self::$ajax[#{id_var.v_name}], true);\n\n"
         
         for i in maybe_vars do
             code_str += "if (isset(self::$ajax['#{i.v_name}'])) {\n"
