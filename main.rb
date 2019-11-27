@@ -14,6 +14,7 @@ def gener_filter_file_by(function_name, must_vars, maybe_vars)
 			for i in must_vars do
 				x += "self::$ajax['#{i.v_name}'], "
 			end
+			x[-2] = ""
 			x[-1] = ""
 		end
 
