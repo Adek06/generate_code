@@ -87,7 +87,8 @@ class Func_Class
         code_str = ""
         for i in must_vars do
             if i.is_id
-                code_str += "self::$param['#{i.v_name}'] = self::#{i.v_name}Valid(self::$ajax['#{i.v_name}'], false);\n\n"
+                temp_var_name = i.v_name.sub(/id$/,'')
+                code_str += "self::$param['#{temp_var_name}'] = self::#{i.v_name}Valid(self::$ajax['#{i.v_name}'], true);\n\n"
             else 
                 code_str += "self::$param['#{i.v_name}'] = self::#{i.v_name}Valid();\n\n"
             end
@@ -103,6 +104,40 @@ class Func_Class
                 code_str += "    self::$param['#{i.v_name}'] = self::#{i.v_name}Valid();\n"
                 code_str += "}\n"
             end
+        end
+        code_str += "\nreturn ;\n\n"
+
+        code_str += "}\n"
+        return code_str
+    end
+
+    def Func_Class.list_function(func_name, must_vars, maybe_vars)
+        code_str =  ""
+
+        for i in must_vars do
+            if i.is_id
+                code_str += "self::$param['#{i.v_name}'] = self::#{i.v_name}Valid(self::$ajax['#{i.v_name}'], false);\n\n"
+            else 
+                code_str += "self::$param['#{i.v_name}'] = self::#{i.v_name}Valid();\n\n"
+            end
+        end
+
+        code_str += "$orderArray = ['updatetime'];\n"
+        code_str += "$param = self::pageValid($orderArray);\n"
+        code_str += "if (!$param) {\n"
+        code_str += "    Common::setMsgAndCode('page参数错误', ErrorCode::InvalidParam);\n"
+        code_str += "}\n\n"
+
+        for i in maybe_vars do
+            if i.is_id
+                code_str += "if (isset(self::$ajax['#{i.v_name}'])) {\n  "
+                code_str += "  self::$param['#{i.v_name}'] = self::#{i.v_name}Valid(self::$ajax['#{i.v_name}'], false);\n"
+                code_str += "}\n"
+            else 
+                code_str += "if (isset(self::$ajax['#{i.v_name}'])) {\n"
+                code_str += "    self::$param['#{i.v_name}'] = self::#{i.v_name}Valid();\n"
+                code_str += "}\n"
+            end      
         end
         code_str += "\nreturn ;\n\n"
 
