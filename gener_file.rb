@@ -1,9 +1,5 @@
 #encoding:utf-8
 
-print "請輸入模块名字： "
-
-file_name = gets.chomp()
-
 # file_name = "jointsale attention"
 
 def gener_file_by file_name, module_folder, content=""
@@ -13,8 +9,18 @@ def gener_file_by file_name, module_folder, content=""
                 f.syswrite("")
             end
         else
+            if file_name.kind_of?(Array)
+                temp_name = ""
+                for i in file_name do
+                    temp_name += upper_first_alphabet i
+                end
+                file_name = upper_first_alphabet temp_name.downcase
+                class_name = temp_name.sub(/Filter$/, '')
+            else
+                class_name = file_name
+            end
             File.open("./#{module_folder}/#{file_name}.php","w") do |f|
-                f.syswrite(content.gsub!(/(\#\{.*?\})/) {|word| file_name })
+                f.syswrite(content.gsub!(/(\#\{.*?\})/) {|word| class_name })
             end
         end
     rescue => exception
@@ -54,6 +60,10 @@ for i in arr do
     filter_model += i
 end
 
+print "請輸入模块名字： "
+
+file_name = gets.chomp()
+
 file_name = file_name.split(" ")
 
 temp_name = ""
@@ -65,12 +75,7 @@ gener_file_by temp_name, "Filter", cFilter_model
 
 gener_file_by temp_name, "models", model_model
 
-temp_name = ""
-for i in file_name do
-    temp_name += i
-end
-temp_name = upper_first_alphabet temp_name
+gener_file_by file_name, "module", controller_model
 
-gener_file_by temp_name, "module", controller_model
-
-gener_file_by temp_name+"filter", "module", filter_model
+file_name << "filter"
+gener_file_by file_name, "module", filter_model

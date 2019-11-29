@@ -3,6 +3,6 @@
 /**
  * 
  */
-class Filter_#{name} extends Filter
+class Filter_#{name}Model extends Filter
 {
 }
