@@ -9,7 +9,7 @@ class Var_Class
 	end
 
 	def does_name_have_id ()
-		if (@v_name =~ /(.*)id/i)
+		if (@v_name =~ /(.*)id$/i)
 			return true
 		else
 			return false
@@ -17,7 +17,7 @@ class Var_Class
 	end
 
 	def does_name_have_list ()
-		if (@v_name =~ /(.*)list/i)
+		if (@v_name =~ /(.*)list$/i)
 			return true
 		else
 			return false
