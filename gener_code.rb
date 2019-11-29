@@ -33,6 +33,8 @@ def gener_filter_file_by(function_name, must_vars, maybe_vars)
 			code_str += Func_Class.del_function(function_name, must_vars, maybe_vars)
 		elsif function_name == 'get'
 			code_str += Func_Class.get_function(function_name, must_vars, maybe_vars)
+		elsif function_name == 'list'
+			code_str += Func_Class.list_function(function_name, must_vars, maybe_vars)
 		end
 		f.syswrite(code_str)
 	end
@@ -73,7 +75,7 @@ def gener_api_json_by(must_vars, maybe_vars)
 
 end
 
-print "請輸入函數類型（add、del、set、get）: "
+print "請輸入函數類型（add、del、set、get、list）: "
 
 function_name = ((gets.chomp).split)[0]
 # function_name = 'get'

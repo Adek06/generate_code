@@ -76,6 +76,18 @@ class Var_id < Var_Class
 	end
 end
 
+class Var_list < Var_Class
+	def func_code
+		code_str =  "protected static function #{@v_name}Valid()\n{\n"
+		code_str += "    $#{@v_name} = self::$ajax['#{@v_name}'];\n"
+		code_str += "    foreach ($#{@v_name} as $i) {\n"
+		code_str += "        $t = self::Valid();\n"
+		code_str += "    }\n"
+		code_str += "    self::$param['#{@v_name}'] = $#{@v_name};\n"
+		code_str += "}\n"
+	end
+end
+
 class Var_Factory
 	def Var_Factory.get_var (var_c)
 
