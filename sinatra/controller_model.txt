@@ -1,0 +1,111 @@
+<?php
+
+/**
+ * 
+ */
+class #{file_name}Controller extends 
+{
+    public function init()
+    {
+        parent::init();
+
+        Yaf_Loader::import(realpath(dirname(__FILE__)) . '/' . $this->getRequest()->getControllerName() . 'filter.php');
+    }
+
+    public function addPostAction()
+    {
+        #{file_name}Filter::addPostValid();
+
+        $data = Filter::$param;
+        $#{file_name}M  = new #{file_name}Model();
+        $xxid = $#{file_name}M->add($data);
+        if (!$xxid) {
+            Response::getInstance()->setError(ErrorCode::FailedCode);
+        }
+
+        $this->returnAjax();
+        return;
+    }
+
+    public function delPostAction()
+    {
+        #{file_name}Filter::delPostValid();
+        
+        $filter = [];
+        $filter['xxid'] = Filter::$param['xxid'];
+
+        $#{file_name}M  = new #{file_name}Model();
+        $xxid = $#{file_name}M->del($filter);
+        if (!$xxid) {
+            Response::getInstance()->setError(ErrorCode::FailedCode);
+        }
+
+        $this->returnAjax();
+        return;
+    }
+
+    public function setPostAction()
+    {
+        #{file_name}Filter::setPostValid();
+
+        $filter['xxid'] = Filter::$param['xxid'];
+        $data = Filter::$param;
+        unset($data['xxid']);
+        $#{file_name}M = new #{file_name}Model();
+        $res = $#{file_name}M->set($data,$filter);
+
+        if (!$res) {
+            Response::getInstance()->setError(ErrorCode::FailedCode);
+        }
+
+        $this->returnAjax();
+        return;
+    }
+
+
+    public function getPostAction()
+    {
+        #{file_name}Filter::getPostValid();
+
+        $xx = Filter::$param['xx'];
+                    
+        Response::getInstance()->setReply('xx', $xx);
+
+        $this->returnAjax();
+        return;
+    }
+
+
+    public function listPostAction()
+    {
+        #{file_name}Filter::listPostValid();
+
+        $#{file_name}M = new #{file_name}Model();
+
+        $filter = Filter::$param;
+
+        $skip = (Filter::$param['pageNo'] - 1) * Filter::$param['pageSize'];
+        $limit = Filter::$param['pageSize'];
+        $order = isset(Filter::$param['order']) ? Filter::$param['order'] : [];
+        $queryOption = [
+            'sort' => $order,
+            'skip' => $skip,
+            'limit' => $limit
+        ];
+
+        $xxList = $#{file_name}M->page($filter, $queryOption);
+        if ($xxList) {
+            if (isset($xxList['total'])) {
+                Response::getInstance()->setReply('total', $xxList['total']);
+                unset($xxList['total']);
+            }
+            Response::getInstance()->setReply('xxList', $xxList);
+        } else {
+            Response::getInstance()->setError(ErrorCode::FailedCode);
+        }
+
+        $this->returnAjax();
+        return;
+    }
+
+}

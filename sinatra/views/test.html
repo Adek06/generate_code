@@ -1,0 +1,146 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+.body-container{
+    position: fixed;
+    top:0;
+    left: 0;
+    right:0;
+    bottom: 0;
+    overflow: auto
+}  
+
+.showText{
+	float:left;
+}
+</style>
+<title>YELK</title>
+<script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.js"></script>
+<script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+
+<script src="https://cdn.bootcss.com/twitter-bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<link href="https://cdn.bootcss.com/twitter-bootstrap/3.4.0/css/bootstrap-theme.css" rel="stylesheet">
+<link href="https://cdn.bootcss.com/twitter-bootstrap/3.4.0/css/bootstrap.min.css" rel="stylesheet">
+
+<script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+</script>
+</head>
+<body>
+    <div class="container mt-3">
+	<form>
+	    <div class="input-group mb-3">
+	      <div class="input-group-prepend">
+	        <span class="input-group-text">函数功能（add、del、set、get、list）</span>
+	      </div>
+	      <input type="text" class="form-control" id="function_name">
+	    </div>
+	  </form>
+	  <form>
+	    <div class="input-group mb-3">
+	      <div class="input-group-prepend">
+	        <span class="input-group-text">必填</span>
+	      </div>
+	      <input type="text" class="form-control" id="must_vars">
+	    </div>
+	  </form>
+	  <form>
+	    <div class="input-group mb-3">
+	      <div class="input-group-prepend">
+	        <span class="input-group-text">选填</span>
+	      </div>
+	      <input type="text" class="form-control"  id="maybe_vars">
+	    </div>
+	  </form>
+	</div>
+	
+	<div class="showText">
+	<textarea rows="30" cols="50" id='filterText'>
+		这里是 filter 文件
+	</textarea>
+	</div>
+
+	<div class="showText">
+	<textarea rows="30" cols="50" id='FilterText'>
+		这里是 Filter 文件
+	</textarea>
+	</div>
+
+	<div class="showText">
+	<textarea rows="30" cols="50" id='apiText'>
+		这里是 API 文件
+	</textarea>
+	</div>
+</body>
+<script type="text/javascript">
+
+	$('#function_name').on('input propertychange', function() {
+         test();
+    });
+	$('#must_vars').on('input propertychange', function() {
+         test();
+    });
+	$('#maybe_vars').on('input propertychange', function() {
+         test();
+    });
+
+    function test(){
+    	must_vars = $("#must_vars").val().split(',')
+        $.ajax({
+            type: 'POST',
+            contentType: "application/json",
+            async:false,
+            url: "/g_code/f",
+            data: JSON.stringify({'function_name':$("#function_name").val(),"mode":"filter","must_vars":must_vars, "maybe_vars":$("#maybe_vars").val().split(',')}),
+
+            success:function(res){
+                $('#filterText').val(res)
+            }
+        })
+
+		$.ajax({
+            type: 'POST',
+            contentType: "application/json",
+            async:false,
+            url: "/g_code/f",
+            data: JSON.stringify({'function_name':$("#function_name").val(),"mode":"Filter","must_vars":must_vars, "maybe_vars":$("#maybe_vars").val().split(',')}),
+
+            success:function(res){
+                $('#FilterText').val(res)
+            }
+        })
+
+		$.ajax({
+            type: 'POST',
+            contentType: "application/json",
+            async:false,
+            url: "/g_code/f",
+            data: JSON.stringify({'function_name':$("#function_name").val(),"mode":"api","must_vars":must_vars, "maybe_vars":$("#maybe_vars").val().split(',')}),
+
+            success:function(res){
+                $('#apiText').val(res)
+            }
+        })
+    }
+
+    
+    // $.ajax({
+    //         type: 'GET',
+    //         contentType: "application/json",
+    //         url: "/listBUSROUTE",
+    //         success:function(res){
+    //             var temp_array = []
+    //             for(var i=0;i<res['total'];i++){
+    //                 // temp_array.push({text:})
+    //                 var temp_text = '' + res['data'][i]['come'] + ' 到 ' + res['data'][i]['to'] + ' : ' + res['data'][i]['route']
+    //                 temp_array.push({'text':temp_text})
+    //             }
+    //             routes_data['routes'] = temp_array
+    //         }
+    // })
+    
+
+</script>
+</html>
