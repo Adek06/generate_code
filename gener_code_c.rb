@@ -75,7 +75,7 @@ def gener_api_json_by(must_vars, maybe_vars)
 
 end
 
-def main(fucntion_name,must_vars="",maybe_vars="")
+def main(fucntion_name,must_vars="",maybe_vars="", m="")
 	must_array = []
 	for i in must_vars do
 		must_array.push(i.split())
@@ -96,11 +96,13 @@ def main(fucntion_name,must_vars="",maybe_vars="")
 		maybe_objects.push(Var_Class.new(i[0],i[1]))
 	end
 
-	gener_filter_file_by function_name, must_objects, maybe_objects
-
-	gener_Filter_file_by must_objects, maybe_objects
-
-	gener_api_json_by must_objects, maybe_objects
+	if m == "filter" 
+		gener_filter_file_by function_name, must_objects, maybe_objects
+	elsif m == "Filter"
+		gener_Filter_file_by must_objects, maybe_objects
+	else 
+		gener_api_json_by must_objects, maybe_objects
+	end
 end
 # print "請輸入函數類型（add、del、set、get、list）: "
 
